@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Timing Demo</title>
+	<meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   
+</head>
+<body>
+
+
+
+	<div>
+		<h2>
+			<strong> For Loop:</strong>
+			<br>
+			<pre>for(var j = 0,len = array.length;j&lt;len;j++)</pre>
+			Time: <span id="time1"></span>
+		</h2>
+	</div>
+
+	<br>
+	<br>
+
+	<div>
+		<h2>
+			<strong> For Loop:</strong>
+			<br>
+			<pre>array.forEach()</pre>
+			Time: <span id="time2"></span>
+		</h2>
+	</div>
+
+
+	
+
+
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function(event) {
+
+			// function to create an array filled with 1000 random ints
+			function randomArray() {	
+				// create a temp array
+				var tmp_arr = [];
+
+				// loop through 1000 times
+				for(var i=0; i<1000; i++){
+					// create a temp random number
+					var tmp = Math.floor(Math.random()*1000 +1);
+					tmp_arr.push(tmp); // add to array
+				}
+
+				// return tmp_array
+				return tmp_arr;
+			}
+
+
+
+			// get the array
+			var array = randomArray();
+
+			// create a mark for the first type of for loop
+			window.performance.mark('for1');
+
+			for(var j = 0,len = array.length; j<len; j++){
+				console.log(array[j])
+			}
+
+			// mark the end of the for loop
+			window.performance.mark('endfor1');
+
+
+			// create a mark for the second type of for loop
+			window.performance.mark('for2');
+
+			array.forEach(x=>console.log(x));
+
+			// mark the end of the for loop
+			window.performance.mark('endfor2');
+
+
+
+
+			// next we need to measure the times
+			window.performance.measure('for1_measure', 'for1', 'endfor1');
+
+			window.performance.measure('for2_measure', 'for2', 'endfor2');
+
+
+			// get the measurements and display the output
+			var measure1 = window.performance.getEntriesByName('for1_measure');
+
+			var measure2 = window.performance.getEntriesByName('for2_measure');
+
+			document.getElementById('time1').innerHTML = measure1[0].duration + "ms";
+
+			document.getElementById('time2').innerHTML = measure2[0].duration + "ms";			
+		});
+	</script>
+</body>
+</html>
